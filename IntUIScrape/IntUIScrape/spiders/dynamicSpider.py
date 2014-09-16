@@ -1,5 +1,5 @@
 from scrapy.selector import Selector
-from IntUIScrape.items import Craigslist
+from IntUIScrape.items import dynamic_item
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.http    import Request
@@ -7,15 +7,20 @@ from scrapy.http    import Request
 
 
 class Craig(CrawlSpider):
-    name = "craig"
-    rules = ( Rule(SgmlLinkExtractor(allow=("index\d00\.html", ), restrict_xpaths=('//a[@class="button next"]' ,)), callback="parse_items", follow=True), )
+    name = "dynam"
 
-    def __init__(self, city, category):
-        super(Craig, self).__init__()
-        self.city = city
-        self.start_urls = ['http://' + str(city) + '.craigslist.org/'+str(category)]
-        self.allowed_domains = [str(city)+".craigslist.org"]
-        
+
+    def __init__(self, *args, **kwargs):
+        super(Craig, self).__init__(**kwargs)
+        fields = []
+        for key, value in kwargs:
+            fields.append(key)
+        dynItem = dynamic_item("dynItem", fields)
+
+        self.start_urls = kwargs['star_urls']
+        self.allowed_domains = kwargs['allowed_domains']
+        self. rules = ( Rule(SgmlLinkExtractor(allow=("index\d00\.html", ), restrict_xpaths=('//a[@class="button next"]' ,)), callback="parse_items", follow=True), )
+
 
     def parse_items(self, response):
         hxs = Selector(response)

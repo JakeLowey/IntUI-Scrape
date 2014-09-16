@@ -6,7 +6,7 @@
 # http://doc.scrapy.org/en/latest/topics/items.html
 
 # import scrapy
-from scrapy.item import Item, Field
+from scrapy.item import Item, Field, DictItem
 
 
 # class IntuiscrapeItem(scrapy.Item):
@@ -21,3 +21,12 @@ class Craigslist(Item):
   price = Field()
   description = Field()
   image_urls = Field()
+  lat = Field()
+  lon = Field()
+
+
+def dynamic_item(class_name, field_list):
+    field_dict = {}
+    for field_name in field_list:
+        field_dict[field_name] = Field()
+    return type(class_name, (DictItem,), field_dict)

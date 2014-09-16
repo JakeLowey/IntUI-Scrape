@@ -13,5 +13,11 @@ BOT_NAME = 'IntUIScrape'
 SPIDER_MODULES = ['IntUIScrape.spiders']
 NEWSPIDER_MODULE = 'IntUIScrape.spiders'
 
+COOKIES_ENABLED = False
+
+ITEM_PIPELINES = {
+	
+}
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'IntUIScrape (+http://www.yourdomain.com)'
